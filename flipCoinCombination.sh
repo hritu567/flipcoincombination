@@ -1,6 +1,6 @@
 #!/bin/bash -x
-read -p "Enter the number of times coin should be tossed " num 
-coins=3
+read -p "Enter the number of times coin should be tossed : " num 
+read -p "Enter number of coins " coins
 declare -A dictionary
 H=0
 T=0
@@ -8,7 +8,7 @@ function coin() {
 for (( i=1; i<=$num; i++ ))
 do
 str=""
- for(( j=0; j<$coins; j++ ))
+ for(( j=0; j < $coins; j++ ))
  do
    ran=$(( RANDOM % 2 ))
 	if [ $ran -eq 1 ]
@@ -24,4 +24,4 @@ done
 }
 
 coin
-echo "${!dictionary[@]} : ${dictionary[@]}"
+echo $(printf "%s\n" ${!dictionary[@]} : ${dictionary[@]} | sort -n)
