@@ -1,25 +1,27 @@
-#!/bin/bash
-read -p "enter the number of times coin should be tossed " num
-Head=0
-Tail=0
-for ((i=0; i<$num; i++))
+#!/bin/bash -x
+read -p "Enter the number of times coin should be tossed " num 
+coins=3
+declare -A dictionary
+H=0
+T=0
+function coin() {
+for (( i=1; i<=$num; i++ ))
 do
-	ran=$((RANDOM%2))
+str=""
+ for(( j=0; j<$coins; j++ ))
+ do
+   ran=$(( RANDOM % 2 ))
 	if [ $ran -eq 1 ]
 	then
-		 ((Head++))
+	   str=$str"H"
 	else
-		 ((Tail++))
+            str=$str"T"
 	fi
+  done
+echo coins : $str
+dictionary["$str"]=$(( ${dictionary["$str"]} + 1 ))
 done
+}
 
-declare -A Coin
-Coin[((Head))]=$Head
-Coin[((Tail))]=$Tail
-echo ${Coin[@]}
-
-tothead=$(($Head*100))
-headper=$(($tothead/$num))
-tottail=$(($Tail*100))
-tailper=$(($tottail/$num))
-echo "head percentage : $headper , tails percentage : $tailper "
+coin
+echo "${!dictionary[@]} : ${dictionary[@]}"
